@@ -1,0 +1,83 @@
+% am121 LaTeX template, for assignment and extreme optimization writeups
+% created by Chris Coey for am121 Spring 2012
+
+\documentclass[12pt]{article}
+% packages
+\usepackage{amssymb,amsmath,amsthm} 
+\usepackage[margin=1.25in]{geometry}
+\usepackage{graphicx,ctable,booktabs}
+% begin paragraphs on empty line rather than indent
+\usepackage[parfill]{parskip}
+% eps to pdf, declare graphics
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+% enable highlighting text: use \hl{your text here}
+\usepackage{soul}
+
+% adjust section and subsection labelling 
+\def\thesection{\arabic{section}}
+\def\thesubsection{\arabic{section}.\arabic{subsection}}
+\makeatletter
+% section as task
+\newenvironment{task}{\@startsection
+       {section}{1}
+       {0.4em}{-.5ex plus -1ex minus -.2ex}{.5ex plus .2ex}
+       {\pagebreak[3]\large\bf\noindent{Task}}}
+       {\nopagebreak[3]\vspace{3ex}\begin{center}\rule{1\linewidth}{.3pt}\end{center}}
+% subsection as subtask
+\newenvironment{subtask}{\@startsection
+       {subsection}{2}
+       {0.3em}{0ex plus -1ex minus -.2ex}{.5ex plus .2ex}
+       {\pagebreak[3]\large}}
+       {\nopagebreak[3]\vspace{3ex}\begin{center}\rule{0.5\linewidth}{.3pt}\end{center}}
+\makeatother
+
+% headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\chead{} 
+\rhead{\thepage} 
+% footer
+\lfoot{\small\scshape AM121/ES121} 
+\cfoot{} 
+%%%% insert your name here %%%%
+\rfoot{\footnotesize your name here} 
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+\begin{document}
+%%%% change homework number here %%%%
+\title{CS Lecture Notes}
+%%%% insert your name and TF's name here %%%%
+\author{Jeremy Nixon \\
+% \textit{TF: your TF's name here}
+}
+\date{\today}
+\maketitle
+\thispagestyle{empty}
+\bigskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% task 1
+\begin{task}{optional title}
+answer goes here
+
+\end{task}
+
+% task 2
+\begin{task}{}
+\begin{subtask}{optional title}
+answer goes here
+
+\end{subtask}
+\begin{subtask}{}
+answer goes here
+
+\end{subtask}
+\end{task}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+

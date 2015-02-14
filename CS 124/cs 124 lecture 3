@@ -1,0 +1,30 @@
+\documentclass[12pt]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{asymptote}
+\usepackage{epstopdf}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{qtree}
+\usepackage{color}
+
+\newcommand{\problem}[1]{\vspace{0.3in} \noindent {\bf Problem #1}}
+\newcommand{\solution}[1]{\vspace{0.3in} \noindent\bf Solution #1}
+\newcommand{\Lagr}{\mathcal{L}}
+
+\title{\bf \large Harvard University\\ CS 124\\ \vspace{0.15in} Lecture 3}
+\author{ \bf \large Lecture Notes by  Jeremy Nixon}
+\date{\today}   
+
+\begin{document}
+\end{document}

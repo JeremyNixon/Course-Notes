@@ -1,0 +1,152 @@
+\documentclass[12pt]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{asymptote}
+\usepackage{epstopdf}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{qtree}
+\usepackage{color}
+
+\newcommand{\problem}[1]{\vspace{0.3in} \noindent {\bf Problem #1}}
+\newcommand{\solution}[1]{\vspace{0.3in} \noindent\bf Solution #1}
+\newcommand{\Lagr}{\mathcal{L}}
+
+\title{\bf \large Harvard University\\ CS 186\\ \vspace{0.15in} Lecture 3}
+\author{ \bf \large Lecture Notes by  Jeremy Nixon}
+\date{\today}                
+
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+\section{Overview}
+
+New Room: SC B\\
+
+\noindent
+The Practical will go up as soon as it's approved by Kaggle.\\
+
+\noindent
+In CS, there are generally only videos if the courses are taught through the extension school simultaneously.\\
+
+\noindent
+On the book: Don't conflate the quality of the book with difficulty with the material. This course combines a number of topics in linear algebra and statistics nad so it can be difficult to be comfortable with the material. If you're on the weaker end of the math backgound, you may need to do a lot of work to hang in there. Also, the notation - the new vocabulary - can be difficult the first time you see it. What I hope to give you is not something that makes this easy but something that makes this rewarding.\\
+
+\noindent
+There's this site by Robert Grosse and Reeve called meta academy that goes over the graph of knowledge required to do understand a concept in machine learning. They link to useful resources on the web, and indentify the relevant chapter and section in Kevin Murphy or Chris Bishop's book.
+
+\section{Basis Functions}
+
+Basis functions are another intimidating, jargony things. A lot of supervised learning in general is about turning your inpot object into some label with a mapping. In your practical, you're going to have a giant set of molecular candidtates and you're going to have to predict the efficiency of molecules that we don't know the answer to already - an efficenty of a solar cell. But a representation of a molecule doesn't make sense as an input.
+
+\noindent
+So you want to think of these basis functions as features that let us turn raw input data into inputs to a regression. We want to represent our data as a vector of real numbers, and we'll be given some features to work with in the beginning but the point is that the basis functions are one way to go from an abstract molecule object to a vector of some length that we can turn into an input to a machine learning algorithm. \\
+
+Basis Function = Features\\
+
+We'll go from some molecular graph and you'll come up with a collection of these $\phi$ functions that take in these objects and produce a real value representations. \\
+
+Molecule $->$ $\phi _{j}(molecule)$$ -> $$R^{J}$\\
+
+\noindent
+Say you want to get good at sentiment analysis - figure out how positive or negative a person's opinion is based on the text. What are some good features for sentiment analysis? Capitalization, punctuation, etcetera. So we'll take these features out of the document and turn them into a vector of numbers using a Basis function. Each basis function produces a scalar.\\
+
+\noindent
+This seems like preprocessing, I thought that basis functions were about the functional form. So sometimes the features that you want to find are functions - relatively simple polynomials, or whatever.
+
+\noindent
+Let's imagine that we have one-dimensional data. We have squares and circles on the x axis, and we want to find some partition of this space that will separate the data. But sometimes there isn't one. So what if we add a $\phi$ function $\phi _{1}(x) = x and \phi _{2}(x) = x^{2}$. By adding a dimension, suddenly it's possible to draw a really simple line that will properly separate the data. Now ther's a simple classifier that separates the two classes. This is a feature - this doesn't feel like thinking hard about sentiment, but it's a feature that we added to the data that reveals some structure in the data that we can exploit.\\
+
+Question: In real life things are never this simple, so part of the process has to be discovering these $\phi$s, and in many ways this is the whole game. Someone applying machine learning in industry needs to do \textit{Feature Engineering}. \\\\
+
+People Doing Feature Engineering need to 
+
+\begin{enumerate}
+\item Think Real Hard - This is one version of feature engineering
+\item Learn Them - (Artificial Neural Networks) Another version is to learn them from the data. This is what deep learning is all about - give the$\phi$s themselves parameter. The early neurtons are trying to adapt to find new$\phi$s and the higher leveles look a lot like regression. You can remind people that neural networks are just adapted basis function regression. 
+\item Go Infinite (Kernels) - You can go throw the kitchen sink at things - you can try to come up with every possible basis function and use a cleve trick to allow you to impilcitly map your data into an infinite dimensional feature space. 
+\item Unsupervised Learning -  you learn these features in an unsupervised way, those features will be great $\phi$s for some representation of the data.
+\end{enumerate}
+
+\noindent
+In Practice, you probalby want to do a number of these things. Comming up with a good representation for your data is an extremely important part of the problem. 
+
+\noindent
+Some people view machine learning as being entirely classification. 
+
+\noindent
+The $\phi$ functions create a vector.\\
+
+\noindent
+For example, a common non-parametric technique is to use localized bumps to smooth things out after the model gets weighted. Teh width of the bumps can be made narrower or thicker. 
+
+\noindent
+Adding feature functions that let us map through this augmented representation is the name of the game.
+
+\noindent
+In this case, the basis funciton will map between dimensions, from $R^{D}$ to $R_{J}$.\\
+
+\noindent
+So this big $\Phi$ matrix is NxJ where N is the number of data and J is the number of features. If we drew this big matrix out, the height would be N Nd the width would be J, and the 1,1 element would be $\phi_{1}(x_{1})$, then $\phi_{2}(x_{1})$, and so on, all the way to $\phi_{J}(x_{1})$. The matrix x values also go down to N. \\
+
+\noindent
+So we can represent the entire matrix as $\phi:X -> R^{J}$\\
+
+\noindent
+The Nerual network story is about back propegation, and so when we want to learn the $\phi$s and they have their own parameter this is more complicated, for now we're going to assume that our $\phi$s are fixed.\\
+
+The fact that this is called a basis function does not mean that these have to be orthogonal.
+
+\section{Baysean Inference}
+
+\indent
+Using the Gaussian Distribution: 
+Let's contextualize why Baysian Reasoning is so important. Maximum likelihood, and least squares, take data and a model of how the world works and they make a point estimate - your maximum likelihood gets you one number that is your best guess of whoat your estimate should be given the data. 
+
+The idea with being Baysian is that we're going to use a distribution to represent our estimate instead of a single point. It is often the case that there is a lot of ambiguitiy about what the data are telling you, and it's useful to capture some of that ambiguity with a distribution. 
+
+The way that the maximum likelihood works is that the mean is what is returned to you. This is out point estimate - our best estimate of where the mean is. What's the maximumm likelyhood mean? The sample mean - the mean of the data. Taking the average over the size of your data washes out a lot of the noise. 
+
+As we have fewer points, the sample mean gives us a poorer estimate of our mean. We're getting a single number with MLE, and sometimes that single number is near the truth. So mapped point estimates don't allow us to represent the distribution that we get with Baysian reasoning. 
+
+Baysian reasoning has been controversial in other fields, but in AI it has been an obvious improvement. With Beysianism we have a prior - an initial guess. Unfortunately, beysian methods do not have the same guarantees that you get with the frequentist point estimate. The main difference is between the probability is something that really exists, or whether they're a disctiption of uncertainty in your head. We're going to focus on Beysian theory here. These methods do not have to follow the normal distribution, but it is often quite likely. \\\\
+
+Broadly speaking, we have a mean here, and we have an example of a set of possible parameters that we ca have in a model. We have this model for the data, and n datapoints in some space.
+
+$X_{n} \in R$\\
+Data: ${x-_{n}}^{N}_{n=1}$\\
+
+$x_{n} ~ N({\mu, \sigma ^{2}}$\\
+$\mu_{MLE} = \frac{1}{N} \sum\limits_{n=1}^{N}x_{n}$\\
+% $= \text{argmax  } \Pi{n=1}^{N}(x_{n}|\mu ,\sigma ^{2}$\\
+
+$p(\mu | {x_{n}}^{N}_{n = 1} = \frac{p(\mu)p({x_{n}}^{N}_{n=1}|\mu)}{\int p(\mu)p({x_{n}}^{N}_{n=1}|\mu)}$\\
+
+
+
+
+The willingness to treat $\mu$ as a random variable is appealing for AI problems because uncertainty is what we deal with all the time. 
+
+Bayes rule is really boing because it is just the product and sum rules of probability. It's controversial because of our willingness to commit to $\mu$ being a random variable.
+
+One way to think about it is as a data processing system. It's a way to go from some belief about the world - seeing some data, seeing something happen. Ryan encountered this problem where he wanted to build a map of the room to get a robot to not run into things. So he'd run around and get some data, and then the robot would do actions, and he had to decide whether he should trust the new data or the old data more. Keven Murphy said that this was a Baysean reasoning problem. 
+
+Here's what beysian reasoning is about. I have some belief about the world. And then I go and I gather osme data, and I see some observation. So if my prior distribution was a set of a hypotheses for $\mu$, we multiply it point wise by a likelihood function. We re-weight this guy against some likelihood problem. We have some new evidence and need to integrate it into the new distribution, so we integrate it and normalize. 
+
+We take the volume of the distribution that is the evidence and the volume of the prior, and we combine them to get our new belief. 
+
+$P(A,B) = p(A)p(B|A) = p(B)p(A|B)$
+
+
+\end{document}

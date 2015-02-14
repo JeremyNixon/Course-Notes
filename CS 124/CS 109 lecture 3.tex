@@ -1,0 +1,148 @@
+\documentclass[12pt]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{asymptote}
+\usepackage{epstopdf}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{qtree}
+\usepackage{color}
+
+\newcommand{\problem}[1]{\vspace{0.3in} \noindent {\bf Problem #1}}
+\newcommand{\solution}[1]{\vspace{0.3in} \noindent\bf Solution #1}
+\newcommand{\Lagr}{\mathcal{L}}
+
+\title{\bf \large Harvard University\\ CS 124\\ \vspace{0.15in} Lecture 3}
+\author{ \bf \large Lecture Notes by  Anupa Murali}
+\date{\today}                
+
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\section{Graphs}
+How do we represent a graph on a computer? Most popular forms of representation are,
+\begin{enumerate}
+\item Adjacency matrix: $n$ is the number of vertices. It is an $n\times n$ matrix, entry is 1 if $(i,j)$ is in $E$, 0 otherwise.
+\item Adjacency list: An array $A$ of linked lists. $A[i]$ is a list of all $j$ such that $(i,j) \in E$.
+\end{enumerate}
+Graphs can be weighted. 
+$$
+\begin{array}{|c|c|c|}
+\hline
+ & \text{Adj. Matrix } & \text{ Adj. List }\\
+ \hline
+\text{space } & n^2 & \Theta(n+m)\\
+\hline
+(i,j) \in E? & \Theta(1) & O(n) \text{ or } \Theta(\deg(i))\\
+\hline
+\end{array}
+$$
+How can we modify the Adjacency List representation such that it doesn't take $\Theta(\deg(i))$ to find an element and to insert or delete an element? One possibility is to use hashing, which gives $O(1)$ expected time. Another is to use balanced binary search trees, which ail give $O(\log \deg(i))$ search time. \\
+
+\section{Graph Algorithms}
+What are some things we want to do on a graph? Maybe your graph represents a road network for islands, and on the islands are cities connected by islands. One might want to figure out which cities are reachable by each other. We want to separate it into connected components. How can we explore the graph?
+\begin{enumerate}
+\item Depth-first search (DFS)
+\item Breadth-first search (BFS)
+\end{enumerate}
+Both do the same job but visit the vertices in different orders. 
+
+\subsection{Depth-First Search}
+Suppose we have a global array called {\bf visited} of length $n$, the number of vertices. Also suppose we have a procedure called search that is given an input $v$, a vertex. Following is the search() procedure.\\
+
+\noindent
+{\bf search}$(v)$:\\
+\indent
+visited[$v$] = True\\
+\indent
+for $u$ s.t. $(v,u) \in E$\\
+\indent
+\indent
+if visited$[u] =$ False\\
+\indent
+\indent
+\indent
+then search$[u]$.\\
+
+\noindent
+{\bf DFS: }\\
+dfs($G(V,E))$:\\
+\indent
+visited =  [False, False,\ldots,False]\\
+\indent
+for $u \in V$:\\
+\indent
+\indent
+if visited[$u] =$ False\\
+\indent
+\indent
+\indent
+search$(u)$\\
+
+\noindent
+We can define intervals for each vertex capturing when it is being processed, Let $\text{pre}(v)$ be preorder and $\text{post}(v)$ be postorder. For each vertex $v$ we give a $[\text{pre}(v),\text{post}(v)]$ pair. Preorder is when we begin processing the edge, postorder is when we finish processing it (its recursion stack is empty).\\
+
+\noindent
+{\bf Runtime of DFS: } Suppose every vertex was connected to one another. Then it would be $n^2$ time. So it is at most $O(n^2)$. In the adjacency list representation, it is $\Theta(n+m)$. In the adjacency matrix representation it is $\Theta(n^2)$.\\
+
+\noindent
+{\bf DFS can solve: }
+\begin{enumerate}
+\item Articulation points
+\item biconnected components
+\item strongly connected components
+\item planarity testing
+\item isomorphism of planar graphs
+\item max-weighted matching
+\end{enumerate}
+
+\noindent
+{\bf Claim: }For any vertices $u\ne v$, their [pre,post] intervals are either disjoint or one is contained in the other.\\
+
+\noindent
+{\bf Proof: }Either one vertex is the ancestor of the other,  or they're in different ``trees". Containment happens because of an ancestor-child relationship.\\
+
+\noindent
+{\bf More Notation: }We can categorize edges into various types based on behavior of DFS. What are the types?
+\begin{enumerate}
+\item {\bf forest edge}: Edge of the graph that appears in the DFS forest. 
+\item {\bf forward edge}: Goes from ancestor to descendant. Doesn't show up in forest.
+\item {\bf back edge}: Goes from descendant to ancestor
+\item {\bf cross edge}: None of the above. 
+\end{enumerate}
+
+\noindent
+{\bf Claim: }Suppose $(u,v) \in E$. Then the post-order number of $u$ is at most the post-order number of $v$ if and only if $(u,v)$ is a back edge.\\
+
+\noindent
+{\bf Proof: }Proving that if it is a back edge, the post order number of $u$ is at most the post order number of $v$ is trivial. The post order number is just the time at which the function call is popped off the recursion stack, so the ancestor will be popped off after the descendant. \\
+
+\noindent
+When you call search on $u$, you are going to call search on the edge from $u$ to $v$ and recurse on $v$ if necessary. Suppose they are disjoint. Since $\text{post}(u) \le \text{post}(v)$, their edges look like {\bf \textcolor{red}{[]}\textcolor{blue}{[]}} where $u$ is the red one and $v$ is the blue one. So we visited $u$ first. This means we haven't visited $v$ yet, so we haven't done the recursive call. So this is impossible. This means that they must be nested. If they're nested, they look like ${\bf \textcolor{blue}{[}\textcolor{red}{[}\textcolor{red}{]}\textcolor{blue}{]}}$. So $(u,v)$ is a back edge.\\
+\qed
+
+\noindent
+{\bf Claim: }$G$ has a cycle if and only if $G$ has at least one back edge.\\
+
+\noindent
+{\bf Proof: }Suppose $(u,v)$ is a back edge. Then if you draw the DFS forest, $v$ is the ancestor of $u$, so we know that there is some path  from $v$ to $u$. But then there is a back edge $(u,v)$, so there is also an edge from $u$ to $v$. This is a cycle.\\
+
+\noindent
+Now let's prove the other direction. Suppose $G$ has a cycle. Consider a cycle $\{v_1,v_2,\ldots,v_l,v_1\}$. Let the vertex $v_i$ have the {\bf smallest} post order in the cycle. Then $v_i, v_{i+1}$ is a back edge since $v_{i+1}$ has post-order less than or equal to that of $v_i$.\\
+\qed
+
+
+\end{document}

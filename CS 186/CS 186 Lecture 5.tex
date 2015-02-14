@@ -1,0 +1,162 @@
+\documentclass[12pt]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{asymptote}
+\usepackage{epstopdf}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{qtree}
+\usepackage{color}
+
+\newcommand{\problem}[1]{\vspace{0.3in} \noindent {\bf Problem #1}}
+\newcommand{\solution}[1]{\vspace{0.3in} \noindent\bf Solution #1}
+\newcommand{\Lagr}{\mathcal{L}}
+
+\title{\bf \large Harvard University\\ CS 186\\ \vspace{0.15in} Lecture 3}
+\author{ \bf \large Lecture Notes by  Jeremy Nixon}
+\date{\today}                
+
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+\section{Overview}
+\begin{enumerate}
+\item Folk Theorem
+\item Prisoner's Dilemma Tournament
+\item P2P File Sharing
+
+\end{enumerate}
+
+\subsection{Sections}
+\begin{enumerate}
+\item Hongyao - Wed 3-4 PM, MD 323
+\item Shosh Thu 1-2 PM, Littauer M-6
+\item InYoung Thur 5-6 PM, MD 223
+\end{enumerate}
+
+\subsection{Office Hours}
+\begin{enumerate}
+\item Hongyao - Mon 5-6:30 MD 123
+\item Shosh Thu Mon 10-11:30 AM, Littauer G26
+\item InYoung Sun 7:30-9 PM Kirkland Dining Hall
+\end{enumerate}
+\section{Prisoner's Dilemma Theory}
+
+In the finite prisoner's dilemma, because we will defect in the final period, by backwards induction the only subgame perfect equilibrium is defecting (Nash) in every period.\\
+
+\noindent
+The distinction that we make between this finite version of the game and an infinite version of the game is what makes it possible to use more complex strategies.\\
+
+\noindent
+Grim trigger: A player cooperates until they are defected against, anad then they defect in every future period. \\
+
+\noindent
+{\bf Claim:} The Grim Trigger is a Nash Equilibrium of of $G^{\infty}$.\\
+
+\noindent
+Notice: infinite sum with high $\delta$ has more potential.\\
+
+\noindent
+$v + \delta v + \delta ^{2} v + ... = \frac{v}{1-\delta}$
+
+\noindent
+We can write down the discounted utility for player 1 after there is a defect period - she gets 5 in the periond she defects in plus 1 for the rest of the periods, discounted.\\
+
+\noindent
+In equilibrium, there utility of player 2 is $\frac{3}{1-\delta}$\\
+
+\noindent
+$5 + \frac{\delta}{1\delta}$\\
+
+\noindent
+The claim is that for large enough $\delta$, $\frac{3}{1-\delta} \geq$$5 + \frac{\delta}{1-delta}$\\
+
+Next question - is this a subgame perfect equilibrim? Is this grim trigger effect a credible thread?\\
+
+Why, in the finite game, does this argument not work? It's that the fact that in an infinitely repeated game, there is no end to start backwards induction from.\\
+
+\section{Folk Theorem}
+
+Prifile a is \textit{enforceable} if $s* \in \text{NE}(G)$ s.t. $u_{i} = u_{i}(a) \geq u_{i}s* = e_{i}$\\
+
+Here $e_{i}$ can be thought of as the enforcing play. All that is necesary is that the utility of the enforcing play is low.\\
+
+{\bf Theorem:} There exists a subgame perfect equilibrium of $G^{\infty}$ where a is played in equilibrium.\\
+
+Strategy: \\(Coop) Play $a_{i}$ if eveyone played a in past.\\(Punish) all ways play $s*{i}$.\\
+
+\noindent
+The claim is that this is a Subgame Perfect Equilibrium. We're going to make certain of this by making sure that there is no single profitable equilibrium.\\
+We're going to solve the problem of the infinite number of subgrames by breaking the game into a number of classes of subgame.\\
+
+$h \in H_{1}: no deviation$\\
+If you deviate, the best possible thing you'll get in that period will be $v_{max}$. But into the future, you just get the punishing payoff (discounted). \\\\
+$v_{max} + \delta * \frac{e_{i}}{1 - \delta} \leq \frac{v_{i}}{1-\delta}$\\
+Check the reading and look at the open loop concept - this is the open loop Nash play.\\
+The difference betwee nthis and the grim trigger is that in this case, you are triggered by any player defecting, and in the other game you were only affected if one other player deviated. With this trigger, if you defet you want to cooperate in future. In the other game, you wanted to defect in the other periods.
+
+\section{Prisoner's Dilemma Tournament}
+
+Woohoo!!! I won!
+\section{P2P File Sharing}
+As more people join the system they contribute resources. 
+\noindent
+You care about resilience to resources and scalability.
+
+As we started to get amazon streaming and netflix streaming, the relative share of internet traffic involved in peer to peer file sharing decreased dramatically. 
+\begin{enumerate}
+\item Protocol: Meassages that can be sent actions that can be taken over the network. These are the rules in a game theoretical system.
+\item Client is a strategy
+\item User is an agent
+\end{enumerate}
+
+\begin{enumerate}
+\item Get a list of IP addresses of peers from set of known peers (no server)
+\end{enumerate}
+
+Share versus Free Riding - Players can choose between uploading bandwidth and not uplading. The cost of sharing comes from the resources that are taken from you, worrieds about illegality, etc. \\
+
+Dispite this, we did see a lot of sharing in the gnutella system. A lot of people were doing substantial amounts of sharing. \\
+
+Why would anyone share? People may program their client to make people shere - you write the system in a way that any downlaeded files are automaically uploaded. \\
+Unfortunatel, there is competition amongst the clients, so other people will build clients that don't use the user's uplad capacity. It's easy to imagine an advertising business model or something that made it advantagous for people to design clients that did not force uploading.\\
+\subsection{Kazaa}
+Kazaa was built by the people who made skype - it promoted cooperation so that you share your statistics and other people can preferencially cooperate you. But people would publish numbers that looked very good. 
+\subsection{BitTorrent}
+The breakthrough was wit BitTorrent - approximately 85\% of P2P traffic in the US. Allowed file sharing.
+
+The key innovation in bittorrent is that you break the file into many small pieces. Then you run a repeated game between the users. It allows for tit-for-tat like behavior, saying that \"If you let me download, I'll reciprocate."
+
+Flash croud - you get a lot of people in a burst sharing a particular file.
+
+\begin{enumerate}
+\item Download from as many people as possible.
+\item You're dividing your upload capacity into chuncks. For some of your upload capacity, you allow people to download from you based on who you can reciprocate with. The final part of your upload capacity is subject to optimistic unchoking. If you don't optimistically unchoke, there is no way for new peers to enter the system. You also may discover a new peer with something useful. 
+
+\end{enumerate}
+
+\subsubsection{Types of attack}
+
+\begin{enumerate}
+\item Three attacks: Never let anybody download from you, and use optimistic unchoking for everybody. That's what the the BitThief algorithm did. Keep asking for peers from tracker, grow neighborhood quickly. Never upload! It's about 2-4x slower than tit for tat, but if you really don't want too use any of your upload you can. Here the defense is simple - you don't let the same IP address request new peer interactions for half an hour.
+\item Strategic Piece Revealer - Reference client:  tell neighbors about new pieces, use rarest piece first. Using rarest piece first makes the rarest pieces more common, so that other people can help upload rare pieces.
+New Strategy: reveal most common piece that reciprocating peer doew not have! Protect a monopoly on pieces, keep others interested. This let's you extract as much from them as possible - you have the critical piece that they need. Holding on to these rare pieces forces others to be more cooperative than they would be otherwise. This is not an equilibrium analysis - if everybody does this, then the system becomes 12\% worse
+\item BitTyrant - a return on investment approach. I'm going to give you just enough of my upload capacity to get you to reciprocate back with you. And then I'm going to use my bandwidth to work with more other people. Pick the client that will give you the best ration between uploads and download capacity. If everybody uses BitTyrant, there is actually in improvement in time. This is because we're more efficiently using the resources. 
+
+\section{Summary}
+Peer to peer systems demonstrate importance of game theory in design. Early systems were easily manipuated. Bittorrent's innovation was to break file into pieces, enabling tit for tat. Still some vulnerabilities, but generally very successful.
+
+\end{enumerate}
+
+\end{document}

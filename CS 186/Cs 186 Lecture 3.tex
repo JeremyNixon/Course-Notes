@@ -1,0 +1,155 @@
+% am121 LaTeX template, for assignment and extreme optimization writeups
+% created by Chris Coey for am121 Spring 2012
+
+\documentclass[12pt]{article}
+% packages
+\usepackage{amssymb,amsmath,amsthm} 
+\usepackage[margin=1.25in]{geometry}
+\usepackage{graphicx,ctable,booktabs}
+% begin paragraphs on empty line rather than indent
+\usepackage[parfill]{parskip}
+% eps to pdf, declare graphics
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+% enable highlighting text: use \hl{your text here}
+% \usepackage{soul}
+
+% adjust section and subsection labelling 
+\def\thesection{\arabic{section}}
+\def\thesubsection{\arabic{section}.\arabic{subsection}}
+\makeatletter
+% section as task
+\newenvironment{task}{\@startsection
+       {section}{1}
+       {0.4em}{-.5ex plus -1ex minus -.2ex}{.5ex plus .2ex}
+       {\pagebreak[3]\large\bf\noindent{Task}}}
+       {\nopagebreak[3]\vspace{3ex}\begin{center}\rule{1\linewidth}{.3pt}\end{center}}
+% subsection as subtask
+\newenvironment{subtask}{\@startsection
+       {subsection}{2}
+       {0.3em}.{0ex plus -1ex minus -.2ex}{.5ex plus .2ex}
+       {\pagebreak[3]\large}}
+       {\nopagebreak[3]\vspace{3ex}\begin{center}\rule{0.5\linewidth}{.3pt}\end{center}}
+\makeatother
+
+% headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\chead{} 
+\rhead{\thepage} 
+% footer
+\lfoot{\small\scshape AM121/ES121} 
+\cfoot{} 
+%%%% insert your name here %%%%
+\rfoot{\footnotesize your name here} 
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+\begin{document}
+%%%% change homework number here %%%%
+\title{CS Lecture Notes}
+%%%% insert your name and TF's name here %%%%
+\author{Jeremy Nixon \\
+% \textit{TF: your TF's name here}
+}
+\date{\today}
+\maketitle
+\thispagestyle{empty}
+\bigskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \secc[tested]{The title of Outline}{
+%     \1 This is the first level of a list.
+%         \2 This is the second level
+%            \3 You can go up to four levels
+%                 \4 You can dynamically change the symbols that start the list
+% }
+
+Linear Regression
+Lecture 3
+
+
+Machine learning is about continuous math, not discrete math, and so there is a lot of calculus. 
+\begin{enumerate}
+\item
+Linear Regression
+
+Data: {xn, tn}Nn=1 
+
+Our data are tuples of x and t, a training value ad a target value.
+
+xnis in RD
+tn is in R
+
+X in RNxD
+
+x is a column vector of all of these features., from x1T to xNT. This is the desigin matrix. We also have a t vector, which is a column that represents our targets.
+
+Since one of these dimensions is one, we don’t have to worry about an explicit representation of the bias.
+
+We’ll have a regression function
+
+y(w,x) = wTx. w and x are column vectors.
+
+ERROR
+
+ED(w) = ½ sum from n = 1 to N of (tn-y(w, x-n))2
+
+The ½ is convenient for after we take the derivative, it cancels the square.
+
+½(t-Xw)T(t-Xw)
+
+So our t vector is Nx1, our x matrix is NxD, and our weight vector is Dx1
+
+We have a quantity t-Xw that is Nx1, and so we’re going to multiply.
+\item
+Gradients
+
+We’ve defined this loss function and want to minimize the loss function as a function of W.
+
+The gradient is the vector of derivatives in terms of each dimension. The gradient of F is the partial derivatives in terms of the weights.
+
+Most people aren't completely comfortable with gradients.
+
+We're going to review what we did last lecture, but more slowly. \\\\
+\begin{center}
+$\Delta_{w}E_{D}(w) = \frac{1}{2} \Delta w(t^{T}t-2w^{T}x^{T}t+w^{T}x^{T}x_{w})$\\
+$ = \frac{1}{2} \Delta wt^{T}t-\delta _{N}N^{T}x^{T} t + \frac{1}{2}\delta _{w}wx^{T}x_{w}$
+\end{center}
+
+Rather than take the derivative with respect to w, we can take the derivative wirth respect to beta and solve for the distribution of the points around our regression line.
+
+The w that we found didn't depend on beta. So we can just plug back in the w that's the MLE and then solve for Beta. 
+
+In general the MLE method and the least squres do not give you the same weights. It only works here because of log of our distribution happens to be the same. 
+
+So why do least squares? Why not always to MLE? MLE gives us a probability distribution. But it can be simpler to use least squares. You may not get any mileage through this beta stuff, and so it is easier and simpler to just use least wquares. 
+
+If you want to make a new prediction, take your new x and get the mean by plugging it in, and then use your beta function to determine the variance. 
+
+\begin{center}
+Basis Functions
+\end{center}
+
+Everything has the form $y(x,w) = w_{0} + w_{1}x$. But with linear regression we only get linear values on the weights. So what if we used a different basis function?
+
+J Basis Functions
+
+$y(x,w) = w_{-} + w_{1}x + w_{2}x^{2}+w_{2}x^{3}$
+
+These basis functions are where engineering is done in machine learning - we're creating features that are important representations of the data.
+
+Usually we refer to basis functions with $\phi$.
+
+$\phi x -> R$
+$\phi (x) -> R$
+
+This is the location of the kernel trick in SVMs, and the advantages we get with neural networks. 
+
+$x->\phi$
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+

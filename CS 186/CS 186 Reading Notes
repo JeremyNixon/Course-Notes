@@ -1,0 +1,18 @@
+\documentclass[11pt]{article}
+%\usepackage[margin=1.25in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumerate,fullpage,amsmath,amsthm,multirow,array,graphicx,amssymb}
+\newtheorem{theorem}{Theorem}
+\pagestyle{empty}
+\newcommand{\points}[1]{\textbf{[#1 Points]}}
+\newcommand{\extracredit}{\mbox{\textbf{[Extra Credit]}}}
+
+\author{} 
+
+\begin{document}
+\title{Jeremy Nixon \\CS 186 Notes}
+\maketitle
+
+
+
+\end{document}
